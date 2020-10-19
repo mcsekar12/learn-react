@@ -1,0 +1,58 @@
+.header__cont {
+  height: 70px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  justify-content: space-between;
+}
+.header__title {
+  color: #4f7df7;
+  font-size: 20px;
+  width: 220px;
+  padding: 5px;
+  line-height: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 35px;
+}
+
+.search__cont {
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user__cont {
+  margin: 10px;
+  cursor: pointer;
+}
+.logo__img {
+  height: 60px;
+  width: 60px;
+}
+
+.ant-calendar-picker {
+  margin-left: 20px;
+}
+
+.logo__text {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid lightgrey;
+}
+
+.main__logo {
+  width: 70px;
+  height: 70px;
+  margin: 5px;
+}
