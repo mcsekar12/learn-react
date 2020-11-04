@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import './header.css';
 
-import { Menu, Button } from 'antd';
+import { Button } from 'antd';
 import { withRouter } from 'react-router-dom';
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <div>Shipped Date</div>
-    </Menu.Item>
-  </Menu>
-);
 
 class Header extends Component {
   constructor(props) {
@@ -25,7 +17,7 @@ class Header extends Component {
     this.props.history.push('/');
   };
   render() {
-    let showButton = window.location.pathname === '/dashboard';
+    let showButton = window.location.pathname === '/admin/dashboard';
 
     return (
       <div className="header__cont">

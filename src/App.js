@@ -7,11 +7,14 @@ import Dashboard from './dashboard/dashboard';
 import Login from './login/login';
 
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-
+import { createBrowserHistory } from 'history';
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL,
+});
 class App extends React.Component {
   render() {
     return (
-      <Router>
+      <Router basename={'/admin'}>
         <div className="hero">
           <div className="main__cont">
             <Header

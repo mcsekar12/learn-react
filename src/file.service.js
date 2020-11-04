@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-const apiEndPoint = 'https://ancient-fortress-84687.herokuapp.com/api/file';
+const apiEndPoint = 'https://demo-redmapledigital.in/myserver/api/file';
+// const apiEndPoint = 'http://localhost:3001/api/file';
 
 export function getFiles(data) {
   return axios.get(`${apiEndPoint}/`);
 }
 
 export function getFile(id) {
-  return axios.get(`${apiEndPoint}/${id}`);
+  return axios.get(`${apiEndPoint}/download/${id}`);
 }
 
 export function deleteFile(id) {

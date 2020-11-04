@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
 import { Table, Space, Modal } from 'antd';
-
 import './dashboard.css';
 import { withRouter } from 'react-router-dom';
 
 import * as service from '../file.service';
 import { Upload, Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import {
+  UploadOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 import { Form, Input, message } from 'antd';
 
 const layout = {
@@ -19,6 +22,7 @@ const tailLayout = {
 };
 
 class Dashboard extends Component {
+  formRef = React.createRef();
   columns = [
     {
       title: 'File Id',
@@ -52,26 +56,48 @@ class Dashboard extends Component {
       render: (text) => <span>{text || '-'}</span>,
     },
     {
+      title: 'Uploded At',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      align: 'center',
+
+      render: (text) => <span>{text || '-'}</span>,
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
           <a
-            onClick={(event) => {
-              event.stopPropagation();
-              this.downloadFile(record.id);
-            }}
+            download={record.file_path}
+            rel="noopener noreferrer"
+            href={
+              'https://demo-redmapledigital.in/myserver/api/file/download/' +
+              record.id
+            }
           >
-            Downlod
+            <Button
+              type="primary"
+              shape="round"
+              icon={<DownloadOutlined />}
+              size="small"
+            >
+              Download
+            </Button>
           </a>
-          <a
+
+          <Button
+            danger
+            shape="round"
+            size="small"
+            icon={<DeleteOutlined />}
             onClick={(event) => {
               event.stopPropagation();
               this.deleteFile(record.id);
             }}
           >
             Delete
-          </a>
+          </Button>
         </Space>
       ),
     },
@@ -113,10 +139,10 @@ class Dashboard extends Component {
   }
   downloadFile(id) {
     service.getFile(id).then((res) => {
-      let data = res.data.data.base64data.data;
-      let fileName = res.data.data.file_path;
+      let data = res.data;
+      // let fileName = res.data.data.file_path;
       // let base64Data = this.base64ToArrayBuffer(data);
-      this.download(data, fileName);
+      this.download(data, 'test.pdf');
       // this.setState({ allOrders: data });
     });
   }
@@ -165,10 +191,11 @@ class Dashboard extends Component {
     service
       .uploadFile(bodyFormData)
       .then((res) => {
-        this.setState({ uploading: false });
+        this.setState({ uploading: false, fileList: [] });
         message.success('File Upoaded Successfully');
         this.getData();
         this.handleOk();
+        this.onReset();
       })
       .catch((err) => {
         this.setState({ uploading: false });
@@ -178,7 +205,7 @@ class Dashboard extends Component {
   };
 
   onReset = () => {
-    // form.resetFields();
+    this.formRef.current.resetFields();
   };
 
   showModal = () => {
@@ -231,8 +258,9 @@ class Dashboard extends Component {
               className="upload__btn"
               type="primary"
               onClick={this.showModal}
+              icon={<UploadOutlined />}
             >
-              Upload New
+              Upload File
             </Button>
             <Table
               columns={this.columns}
@@ -260,7 +288,12 @@ class Dashboard extends Component {
               onCancel={this.handleCancel}
               footer={[]}
             >
-              <Form {...layout} name="control-hooks" onFinish={this.onFinish}>
+              <Form
+                {...layout}
+                name="control-hooks"
+                ref={this.formRef}
+                onFinish={this.onFinish}
+              >
                 <Form.Item
                   name="title"
                   label="Title"
