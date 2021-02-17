@@ -5,3 +5,12 @@
 .hero {
   background: #f2f4f4;
 }
+
+.body__cont {
+  padding-top: 40px;
+  padding-left: 40px;
+}
+
+.form {
+  margin: 0 !important;
+}

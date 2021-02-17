@@ -25,6 +25,28 @@ class Header extends Component {
           <span className="logo__text">
             <div> File Management</div>
           </span>
+          <span>
+            <div className="ui secondary  menu">
+              <a href="/login" className=" item">
+                Login
+              </a>
+              <a href="/dashboard" className=" item">
+                Dashboard
+              </a>
+              <a href="/wiki" className=" item">
+                Wiki Search
+              </a>
+              <a href="/image" className=" item">
+                UnSplash Search
+              </a>
+              <a href="/video" className=" item">
+                Youtube Search
+              </a>
+              <a href="/accordion" className=" item">
+                Accordion
+              </a>
+            </div>
+          </span>
           {showButton ? (
             <Button danger onClick={this.logout}>
               Logout
