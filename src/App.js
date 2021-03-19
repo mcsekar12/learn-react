@@ -15,6 +15,9 @@ import WikiSearch from './widgets/wiki-search/wiki-search';
 import SongList from './songs/songList';
 import Posts from './posts/posts';
 import Recursive from './recursive/recursive';
+import Application from './components/Application';
+import CounterContainer from './counter/counterContainer';
+import PizzaContainerHOC from './pizza-calculator/pizza-calculator';
 
 export const history = createBrowserHistory({
   basename: process.env.PUBLIC_URL,
@@ -38,6 +41,9 @@ class App extends React.Component {
 
             <div className="body__cont">
               <Switch>
+                <Route path="/pizza" render={() => <PizzaContainerHOC />} />
+                <Route path="/counter" render={() => <CounterContainer />} />
+                <Route path="/jet" render={() => <Application />} />
                 <Route path="/dashboard" render={() => <Dashboard />} />
                 <Route path="/login" render={() => <Login />} />
                 <Route path="/image" render={() => <ImageSearch />} />
