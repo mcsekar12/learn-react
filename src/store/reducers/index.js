@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { postsReducer } from './postsReducer';
+import { jetReducers } from './jetReducers';
 
 const songReducer = () => {
   return {
@@ -30,4 +31,5 @@ export default combineReducers({
 
   selectedSong: selectSongReducer,
   posts: postsReducer,
+  jet: jetReducers,
 });

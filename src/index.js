@@ -9,20 +9,23 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
 
 import reducers from './store/reducers';
+import { getAllItems } from './store/actions/jetActions';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunk];
 const enhancers = [];
 
+const store = createStore(
+  reducers,
+  {},
+  composeEnhancers(applyMiddleware(...middleware), ...enhancers)
+);
+
+store.dispatch(getAllItems());
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider
-      store={createStore(
-        reducers,
-        {},
-        composeEnhancers(applyMiddleware(...middleware), ...enhancers)
-      )}
-    >
+    <Provider store={store}>
       <App />
     </Provider>
     ,

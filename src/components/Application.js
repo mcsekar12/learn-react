@@ -5,25 +5,17 @@ import NewItem from './NewItem';
 import Items from './Items';
 
 import './Application.css';
-
-const defaultState = [
-  { value: 'Pants', id: uniqueId(), packed: false },
-  { value: 'Jacket', id: uniqueId(), packed: false },
-  { value: 'iPhone Charger', id: uniqueId(), packed: false },
-  { value: 'MacBook', id: uniqueId(), packed: false },
-  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
-  { value: 'Underwear', id: uniqueId(), packed: false },
-  { value: 'Hat', id: uniqueId(), packed: false },
-  { value: 'T-Shirts', id: uniqueId(), packed: false },
-  { value: 'Belt', id: uniqueId(), packed: false },
-  { value: 'Passport', id: uniqueId(), packed: true },
-  { value: 'Sandwich', id: uniqueId(), packed: true },
-];
+import { connect } from 'react-redux';
+import PackedItemContainer from './containers/PackedItemContainer';
+import PackedFilterContainer from './containers/PackedFilterContainer';
+import UnpackedItemContainer from './containers/UnpackedItemContainer';
+import UnpackedFilterContainer from './containers/UnpackedFilterContainer';
+import { addNewItem } from './../store/actions/jetActions';
 
 class Application extends Component {
   state = {
     // Set the initial state,
-    items: defaultState,
+    items: this.props.items,
   };
 
   // How are we going to manipulate the state?
@@ -31,12 +23,13 @@ class Application extends Component {
   // and check off items, right?
 
   addItem = (item) => {
-    this.setState({
-      items: [
-        ...this.state.items,
-        { value: item, id: uniqueId(), packed: false },
-      ],
-    });
+    // this.setState({
+    //   items: [
+    //     ...this.state.items,
+    //     { value: item, id: uniqueId(), packed: false },
+    //   ],
+    // });
+    this.props.addItem(item);
   };
   updateItem = (id, checked) => {
     let items = this.state.items.map((item) => {
@@ -55,8 +48,6 @@ class Application extends Component {
   render() {
     // Get the items from state
     let { items } = this.state;
-
-    let packed = items.filter((item) => item.packed);
     let unpacked = items.filter((item) => !item.packed);
 
     return (
@@ -67,23 +58,19 @@ class Application extends Component {
           }}
         />
         <CountDown />
-        <Items
+        <UnpackedItemContainer
           title="Unpacked Items"
-          items={unpacked}
-          updateItem={this.updateItem}
-          removeItem={this.removeItem}
+          render={() => <UnpackedFilterContainer />}
         />
-        <Items
+        <PackedItemContainer
           title="Packed Items"
-          items={packed}
-          updateItem={this.updateItem}
-          removeItem={this.removeItem}
+          render={() => <PackedFilterContainer />}
         />
         <button
           className="button full-width"
           onClick={() => {
             this.setState({
-              items: defaultState.map((item) => {
+              items: this.props.items.map((item) => {
                 return { ...item, packed: false };
               }),
             });
@@ -96,4 +83,13 @@ class Application extends Component {
   }
 }
 
-export default Application;
+const mapPropsToState = (state) => ({
+  items: state.jet.items,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (value) => dispatch(addNewItem(value)),
+  };
+};
+
+export default connect(mapPropsToState, mapDispatchToProps)(Application);
